@@ -1,0 +1,38 @@
+﻿<Window x:Class="WlanTool.smbMappingWindow1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WlanTool"
+        mc:Ignorable="d"
+        Title="smbMappingWindow1" Height="350" Width="750"
+        ResizeMode="NoResize">
+    <Grid Margin="0,0,0,-6" Background="DeepSkyBlue">
+        <ComboBox x:Name="comboBox1LetterConnector" HorizontalAlignment="Left" Margin="129,51,0,0" VerticalAlignment="Top" Width="120" FontSize="16" FontWeight="SemiBold">
+            <ComboBoxItem>O:</ComboBoxItem>
+            <ComboBoxItem>P:</ComboBoxItem>
+            <ComboBoxItem>Q:</ComboBoxItem>
+            <ComboBoxItem>R:</ComboBoxItem>
+            <ComboBoxItem>S:</ComboBoxItem>
+            <ComboBoxItem>T:</ComboBoxItem>
+            <ComboBoxItem>U:</ComboBoxItem>
+            <ComboBoxItem>V:</ComboBoxItem>
+            <ComboBoxItem>W:</ComboBoxItem>
+
+        </ComboBox>
+        <TextBox x:Name="txbServer" HorizontalAlignment="Left" Margin="132,143,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="16"/>
+        <TextBox x:Name="txbFolder" HorizontalAlignment="Left" Margin="132,198,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="16"/>
+        <TextBox x:Name="txbUser" HorizontalAlignment="Left" Margin="455,143,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="16"/>
+        <!--<TextBox x:Name="txbPasswordik" HorizontalAlignment="Left" Margin="455,262,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="16"/>-->
+        <Button Content="mapp drive" HorizontalAlignment="Left" Margin="455,43,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.091,-0.162" Width="120" Click="Button_Click" FontSize="16" FontFamily="Arial Black" Height="40"/>
+        <Label Content="Server:" HorizontalAlignment="Left" Margin="52,139,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.464,-0.405" FontSize="16"/>
+        <Label Content="Folder:" HorizontalAlignment="Left" Margin="52,194,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.464,-0.405" FontSize="16"/>
+        <Label Content="user:" HorizontalAlignment="Center" Margin="0,139,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.464,-0.405" FontSize="16"/>
+        <Label Content="pwd:" HorizontalAlignment="Center" Margin="0,198,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.464,-0.405" FontSize="16"/>
+        <CheckBox x:Name="checkBoxPassShower" Content="Show Pwd..." Margin="455,228,180,97" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" FontSize="18" Visibility="Collapsed"/>
+        <PasswordBox x:Name="txbPasswordik" HorizontalAlignment="Left" Margin="455,198,0,0" VerticalAlignment="Top" Width="120" FontSize="16"/>
+        <Label Content="unit:" HorizontalAlignment="Left" Margin="52,51,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.464,-0.405" FontSize="16"/>
+
+    </Grid>
+
+</Window>
