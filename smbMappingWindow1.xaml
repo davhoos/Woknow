@@ -5,34 +5,137 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WlanTool"
         mc:Ignorable="d"
-        Title="smbMappingWindow1" Height="350" Width="750"
-        ResizeMode="NoResize">
-    <Grid Margin="0,0,0,-6" Background="DeepSkyBlue">
-        <ComboBox x:Name="comboBox1LetterConnector" HorizontalAlignment="Left" Margin="129,51,0,0" VerticalAlignment="Top" Width="120" FontSize="16" FontWeight="SemiBold">
-            <ComboBoxItem>O:</ComboBoxItem>
-            <ComboBoxItem>P:</ComboBoxItem>
-            <ComboBoxItem>Q:</ComboBoxItem>
-            <ComboBoxItem>R:</ComboBoxItem>
-            <ComboBoxItem>S:</ComboBoxItem>
-            <ComboBoxItem>T:</ComboBoxItem>
-            <ComboBoxItem>U:</ComboBoxItem>
-            <ComboBoxItem>V:</ComboBoxItem>
-            <ComboBoxItem>W:</ComboBoxItem>
+        Title="smbMapping"
+        Height="300" Width="650"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Background="Transparent"
+        AllowsTransparency="True">
 
-        </ComboBox>
-        <TextBox x:Name="txbServer" HorizontalAlignment="Left" Margin="132,143,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="16"/>
-        <TextBox x:Name="txbFolder" HorizontalAlignment="Left" Margin="132,198,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="16"/>
-        <TextBox x:Name="txbUser" HorizontalAlignment="Left" Margin="455,143,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="16"/>
-        <!--<TextBox x:Name="txbPasswordik" HorizontalAlignment="Left" Margin="455,262,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="16"/>-->
-        <Button Content="mapp drive" HorizontalAlignment="Left" Margin="455,43,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.091,-0.162" Width="120" Click="Button_Click" FontSize="16" FontFamily="Arial Black" Height="40"/>
-        <Label Content="Server:" HorizontalAlignment="Left" Margin="52,139,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.464,-0.405" FontSize="16"/>
-        <Label Content="Folder:" HorizontalAlignment="Left" Margin="52,194,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.464,-0.405" FontSize="16"/>
-        <Label Content="user:" HorizontalAlignment="Center" Margin="0,139,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.464,-0.405" FontSize="16"/>
-        <Label Content="pwd:" HorizontalAlignment="Center" Margin="0,198,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.464,-0.405" FontSize="16"/>
-        <CheckBox x:Name="checkBoxPassShower" Content="Show Pwd..." Margin="455,228,180,97" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" FontSize="18" Visibility="Collapsed"/>
-        <PasswordBox x:Name="txbPasswordik" HorizontalAlignment="Left" Margin="455,198,0,0" VerticalAlignment="Top" Width="120" FontSize="16"/>
-        <Label Content="unit:" HorizontalAlignment="Left" Margin="52,51,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.464,-0.405" FontSize="16"/>
+    <!-- Rounded Window Border -->
+    <Border CornerRadius="7" Background="White" BorderBrush="DodgerBlue" BorderThickness="1" SnapsToDevicePixels="True">
+        <Grid Background="DeepSkyBlue" Margin="1">
 
-    </Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="174*"/>
+                <ColumnDefinition Width="41*"/>
+                <ColumnDefinition Width="535*"/>
+            </Grid.ColumnDefinitions>
 
+            <!-- ComboBox -->
+            <ComboBox x:Name="comboBox1LetterConnector"
+                      HorizontalAlignment="Left"
+                      Margin="129,51,0,0"
+                      VerticalAlignment="Top"
+                      Width="120"
+                      FontSize="16"
+                      FontWeight="SemiBold"
+                      Grid.ColumnSpan="3">
+                <ComboBoxItem>O:</ComboBoxItem>
+                <ComboBoxItem>P:</ComboBoxItem>
+                <ComboBoxItem>Q:</ComboBoxItem>
+                <ComboBoxItem>R:</ComboBoxItem>
+                <ComboBoxItem>S:</ComboBoxItem>
+                <ComboBoxItem>T:</ComboBoxItem>
+                <ComboBoxItem>U:</ComboBoxItem>
+                <ComboBoxItem>V:</ComboBoxItem>
+                <ComboBoxItem>W:</ComboBoxItem>
+                <ComboBoxItem>X:</ComboBoxItem>
+                <ComboBoxItem>Y:</ComboBoxItem>
+
+            </ComboBox>
+
+            <!-- Textboxes -->
+            <TextBox x:Name="txbServer"
+                     HorizontalAlignment="Left"
+                     Margin="132,143,0,0"
+                     TextWrapping="Wrap"
+                     VerticalAlignment="Top"
+                     Width="120"
+                     FontSize="16"
+                     Grid.ColumnSpan="3"/>
+
+            <TextBox x:Name="txbFolder"
+                     HorizontalAlignment="Left"
+                     Margin="132,198,0,0"
+                     TextWrapping="Wrap"
+                     VerticalAlignment="Top"
+                     Width="120"
+                     FontSize="16"
+                     Grid.ColumnSpan="3"/>
+
+            <TextBox x:Name="txbUser"
+                     HorizontalAlignment="Left"
+                     Margin="240,143,0,0"
+                     TextWrapping="Wrap"
+                     VerticalAlignment="Top"
+                     Width="120"
+                     FontSize="16"
+                     Grid.Column="2"/>
+
+            <!-- Button -->
+            <Button Content="mapp drive"
+                    HorizontalAlignment="Left"
+                    Margin="240,43,0,0"
+                    VerticalAlignment="Top"
+                    Width="120"
+                    Height="40"
+                    Click="Button_Click"
+                    FontSize="16"
+                    FontFamily="Arial Black"
+                    Grid.Column="2"
+                    Background="White"
+                    BorderBrush="Transparent"
+                    Cursor="Hand"/>
+
+            <!-- Labels -->
+            <Label Content="Server:"
+                   HorizontalAlignment="Left"
+                   Margin="52,139,0,0"
+                   VerticalAlignment="Top"
+                   FontSize="16"/>
+            <Label Content="Folder:"
+                   HorizontalAlignment="Left"
+                   Margin="52,194,0,0"
+                   VerticalAlignment="Top"
+                   FontSize="16"/>
+            <Label Content="user:"
+                   HorizontalAlignment="Left"
+                   Margin="138,139,0,0"
+                   VerticalAlignment="Top"
+                   FontSize="16"
+                   Grid.Column="2"/>
+            <Label Content="pwd:"
+                   HorizontalAlignment="Left"
+                   Margin="138,198,0,0"
+                   VerticalAlignment="Top"
+                   FontSize="16"
+                   Grid.Column="2"/>
+            <Label Content="unit:"
+                   HorizontalAlignment="Left"
+                   Margin="52,47,0,0"
+                   VerticalAlignment="Top"
+                   FontSize="16"/>
+
+            <!-- Password and Checkbox -->
+            <PasswordBox x:Name="txbPasswordik"
+                         HorizontalAlignment="Left"
+                         Margin="240,198,0,0"
+                         VerticalAlignment="Top"
+                         Width="120"
+                         FontSize="16"
+                         Grid.Column="2"/>
+            <CheckBox x:Name="checkBoxPassShower"
+                      Content="Show Pwd..."
+                      Margin="240,228,180,97"
+                      Checked="CheckBox_Checked"
+                      Unchecked="CheckBox_Unchecked"
+                      FontSize="18"
+                      Visibility="Collapsed"
+                      Grid.Column="2"/>
+            <Button Grid.Column="2" Content="X" HorizontalAlignment="Left" Margin="430,10,0,0" VerticalAlignment="Top" FontStyle="Normal" Width="22" Click="X_ClickClose"/>
+            <Label Content="server and folder without \\" HorizontalAlignment="Left" Margin="110,108,0,0" VerticalAlignment="Top" RenderTransformOrigin="-5.343,0.277" Width="158" Grid.ColumnSpan="3"/>
+
+        </Grid>
+    </Border>
 </Window>

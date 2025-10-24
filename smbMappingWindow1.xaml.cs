@@ -89,5 +89,10 @@ namespace WlanTool
         {
 
         }
+
+        private void X_ClickClose(object sender, RoutedEventArgs e)
+        {
+            this.Close();  
+        }
     }
 }
