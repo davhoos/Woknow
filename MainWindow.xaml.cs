@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Input;
+using WlanTool.Properties;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace WlanTool
@@ -387,6 +388,22 @@ namespace WlanTool
                 FileName = "control",
                 UseShellExecute = true
             });
+        }
+
+        private void btnWifiManage_click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "ms-settings:network-wifisettings",
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("Failed to open settings: " + ex.Message);
+            }
         }
     }
 }
