@@ -1,18 +1,16 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Input;
-using WlanTool.Properties;
+using WlanTool;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace WlanTool
+namespace Woknow
 {
     public partial class MainWindow : System.Windows.Window
     {
@@ -29,22 +27,22 @@ namespace WlanTool
         private void Button_Click(object sender, RoutedEventArgs e) // GOD MODE button
         {
             string godModeFolderName = "GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}";
-            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string godModeFolderPath = Path.Combine(desktopPath, godModeFolderName);
+            //string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            //string godModeFolderPath = Path.Combine(desktopPath, godModeFolderName);
 
-            if (!Directory.Exists(godModeFolderPath))
-            {
-                try
-                {
-                    Directory.CreateDirectory(godModeFolderPath);
-                    System.Windows.MessageBox.Show("✅ God Mode folder created on your Desktop!");
-                }
-                catch (Exception ex)
-                {
-                    System.Windows.MessageBox.Show("❌ Error creating God Mode folder: " + ex.Message);
-                    return;
-                }
-            }
+            //if (!Directory.Exists(godModeFolderPath))
+            //{
+            //    try
+            //    {
+            //        Directory.CreateDirectory(godModeFolderPath);
+            //        System.Windows.MessageBox.Show("OK God Mode created!");
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        System.Windows.MessageBox.Show("X Error creating God Mode shortcut: " + ex.Message);
+            //        return;
+            //    }
+            //}
 
             try
             {
@@ -57,7 +55,7 @@ namespace WlanTool
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show("❌ Error opening folder: " + ex.Message);
+                System.Windows.MessageBox.Show("X Error opening folder: " + ex.Message);
             }
         }
 
@@ -66,11 +64,11 @@ namespace WlanTool
             this.Close();
         }
 
-        // moznost zmeny pozice okna na obrazovce
+        // moznost zmeny pozice okna na screenu
         private void Header_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ButtonState == MouseButtonState.Pressed)
-                this.DragMove(); // umožní přetahování okna
+                this.DragMove();
         }
 
         private void ReadWinKeyCode()
@@ -113,7 +111,8 @@ namespace WlanTool
                 string output = process.StandardOutput.ReadToEnd();
                 process.WaitForExit();
 
-                string[] lines = output.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                // Rozdělení textu a odstranění
+                string[] lines = output.Split(new[] { Environment.NewLine, "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
                 StringBuilder taskList = new StringBuilder();
 
                 string taskName = "";
@@ -144,20 +143,34 @@ namespace WlanTool
                     }
                 }
 
+                
+                rtbTaskOverview.Document.Blocks.Clear(); 
+
+                Paragraph p = new Paragraph();
+                p.Margin = new Thickness(0); 
+                p.Padding = new Thickness(0); 
+
                 if (taskList.Length > 0)
                 {
-                    rtbTaskOverview.AppendText(taskList.ToString());
+                    
+                    p.Inlines.Add(new Run(taskList.ToString().Trim()));
                 }
                 else
                 {
-                    rtbTaskOverview.AppendText("No user-created Running or Ready tasks found.\n");
+                    p.Inlines.Add(new Run("No Ready tasks found."));
                 }
+
+                rtbTaskOverview.Document.Blocks.Add(p);
             }
             catch (Exception ex)
             {
-                rtbTaskOverview.AppendText($"Error: {ex.Message}\n");
+                
+                rtbTaskOverview.Document.Blocks.Clear();
+                Paragraph errorPara = new Paragraph(new Run($"Error: {ex.Message}")) { Margin = new Thickness(0) };
+                rtbTaskOverview.Document.Blocks.Add(errorPara);
             }
         }
+
 
         private void TasksOpenWindow(object sender, RoutedEventArgs e)
         {
@@ -185,8 +198,9 @@ namespace WlanTool
         {
             try
             {
-
-     
+                // 1. Vymazat stávající dokument a nastavit PagePadding na 0
+                rtbAutoruns2.Document.Blocks.Clear();
+                rtbAutoruns2.Document.PagePadding = new Thickness(0);
 
                 using (RegistryKey rk = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", false))
                 {
@@ -194,21 +208,22 @@ namespace WlanTool
                     {
                         foreach (string valueName in rk.GetValueNames())
                         {
-                            // Vytvoříme nový odstavce (Paragraph) pro každý název
+                            // 2. Vytvoření odstavce bez vnějších okrajů (Margin)
                             Paragraph para = new Paragraph(new Run(valueName));
-                            para.Margin = new Thickness(0); // Odstraní mezery mezi řádky
-                   
-                            para.FontSize = 12; // Velikost písma
-                            para.LineHeight = 14; // Nastavení výšky řádku, aby byly řádky blíže k sobě
-                            para.TextAlignment = TextAlignment.Left; // Volitelně, pro zarovnání vlevo
+                            para.Margin = new Thickness(0); // Odstraní mezery nad/pod řádkem
+                            para.Padding = new Thickness(0);
+                            para.FontSize = 12;
+                            para.LineHeight = 14;
+                            para.TextAlignment = TextAlignment.Left;
 
-                            // Přidáme tento paragraf do dokumentu
                             rtbAutoruns2.Document.Blocks.Add(para);
                         }
                     }
                     else
                     {
-                        rtbAutoruns2.AppendText("No autorun user applications found.\n");
+                        // Pokud nic nenajdeme, vložíme informaci také bez mezer
+                        Paragraph emptyPara = new Paragraph(new Run("No autorun applications found.")) { Margin = new Thickness(0) };
+                        rtbAutoruns2.Document.Blocks.Add(emptyPara);
                     }
                 }
             }
@@ -217,6 +232,7 @@ namespace WlanTool
                 System.Windows.MessageBox.Show("Unexpected Error: " + ex.Message);
             }
         }
+
 
         private void AutorunStartups(object sender, RoutedEventArgs e)
         {
@@ -336,16 +352,15 @@ namespace WlanTool
                 string messageText = "Win product key saving...";
                 string title = "State message";
 
-                // Debug output to ensure txbWinCode is a TextBox
-                Console.WriteLine(txbWinCode.GetType().ToString()); // Should output: System.Windows.Controls.TextBox
+                Console.WriteLine(txbWinCode.GetType().ToString()); 
 
-                // Create a file to write to.
+                
                 using (StreamWriter sw = System.IO.File.CreateText(path))
                 {
                     sw.WriteLine(txtBoxDavajCasy);
                     sw.WriteLine(machineName);
-                    sw.WriteLine(txbWinCode.Text);  // Access the Text property of the TextBox
-                                                    //sw.WriteLine("KONEC textu");
+                    sw.WriteLine(txbWinCode.Text); 
+                                                   
 
                     var result = System.Windows.MessageBox.Show(messageText, title, MessageBoxButton.OK, MessageBoxImage.Information);
                 }
@@ -390,20 +405,27 @@ namespace WlanTool
             });
         }
 
-        private void btnWifiManage_click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = "ms-settings:network-wifisettings",
-                    UseShellExecute = true
-                });
+
+
+        private void btnWifiManage_click(object sender, RoutedEventArgs e) 
+        { 
+            try 
+            { 
+                Process.Start(new ProcessStartInfo { FileName = "ms-settings:network-wifisettings", UseShellExecute = true }); 
             }
             catch (Exception ex)
             {
                 System.Windows.MessageBox.Show("Failed to open settings: " + ex.Message);
             }
+
+            
         }
+
+        //
+
+
     }
+
+
 }
+

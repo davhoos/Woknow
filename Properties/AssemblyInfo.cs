@@ -7,13 +7,13 @@ using System.Windows;
 // Obecné informace o sestavení se řídí přes následující 
 // sadu atributů. Změnou hodnot těchto atributů se upraví informace
 // přidružené k sestavení.
-[assembly: AssemblyTitle("WlanTool")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Woknow")]
+[assembly: AssemblyDescription("Wifi Operate know network tool")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("WlanTool")]
-[assembly: AssemblyCopyright("Copyright ©  2025")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyProduct("Woknow")]
+[assembly: AssemblyCopyright("Copyright ©  2025 late version")]
+[assembly: AssemblyTrademark("davhoos")]
 [assembly: AssemblyCulture("")]
 
 // Nastavení ComVisible na false způsobí neviditelnost typů v tomto sestavení
