@@ -27,22 +27,22 @@ namespace Woknow
         private void Button_Click(object sender, RoutedEventArgs e) // GOD MODE button
         {
             string godModeFolderName = "GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}";
-            //string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            //string godModeFolderPath = Path.Combine(desktopPath, godModeFolderName);
+            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string godModeFolderPath = Path.Combine(desktopPath, godModeFolderName);
 
-            //if (!Directory.Exists(godModeFolderPath))
-            //{
-            //    try
-            //    {
-            //        Directory.CreateDirectory(godModeFolderPath);
-            //        System.Windows.MessageBox.Show("OK God Mode created!");
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        System.Windows.MessageBox.Show("X Error creating God Mode shortcut: " + ex.Message);
-            //        return;
-            //    }
-            //}
+            if (!Directory.Exists(godModeFolderPath))
+            {
+                try
+                {
+                    Directory.CreateDirectory(godModeFolderPath);
+                    //System.Windows.MessageBox.Show("OK God Mode created!");
+                }
+                catch (Exception ex)
+                {
+                    System.Windows.MessageBox.Show("X Error creating God Mode shortcut: " + ex.Message);
+                    return;
+                }
+            }
 
             try
             {
