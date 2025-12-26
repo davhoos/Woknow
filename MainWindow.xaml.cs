@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Xml.Linq;
 using WlanTool;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -22,41 +23,100 @@ namespace Woknow
             ReadWinKeyCode();
             TasksOverview();
             AutorunStartups();
+            LoadRegistryStartupOS();
+
         }
+
+        private void LoadRegistryStartupOS()
+        {
+            
+            rtbAutoruns1.Document.Blocks.Clear();
+            rtbAutoruns1.Document.PagePadding = new Thickness(0);
+
+            // žádné mezery mezi řádky
+            Paragraph paragraph = new Paragraph
+            {
+                Margin = new Thickness(0),
+                Padding = new Thickness(0),
+                LineHeight = 1
+            };
+
+            foreach (RegistryView view in new[]
+            {
+        RegistryView.Registry64,
+        RegistryView.Registry32
+    })
+            {
+                using (RegistryKey baseKey =
+                    RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, view))
+                using (RegistryKey rky =
+                    baseKey.OpenSubKey(
+                        @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", false))
+                {
+                    if (rky == null)
+                        continue;
+
+                    foreach (string valueName in rky.GetValueNames())
+                    {
+                        
+                        paragraph.Inlines.Add(new Run(valueName));                      
+                        paragraph.Inlines.Add(new LineBreak());
+                    }
+                }
+            }
+
+            rtbAutoruns1.Document.Blocks.Add(paragraph);
+        }
+
+
+
+
+
+
+            //try
+            //{
+            //    // 1. Vymazat stávající dokument a nastavit PagePadding na 0
+            //    rtbAutoruns1.Document.Blocks.Clear();
+            //    rtbAutoruns1.Document.PagePadding = new Thickness(0);
+
+            //    using (RegistryKey rky = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", false))
+            //    {
+            //        if (rky != null)
+            //        {
+            //            foreach (string valueName in rky.GetValueNames())
+            //            {
+
+            //                // 2. Vytvoření odstavce bez vnějších okrajů (Margin)
+            //                Paragraph para = new Paragraph(new Run(valueName));
+            //                para.Margin = new Thickness(0); // Odstraní mezery nad/pod řádkem
+            //                para.Padding = new Thickness(0);
+            //                para.FontSize = 12;
+            //                para.LineHeight = 14;
+            //                para.TextAlignment = TextAlignment.Left;
+
+            //                rtbAutoruns1.Document.Blocks.Add(para);
+            //            }
+            //        }
+            //        else
+            //        {
+            //            // Pokud nic nenajdeme, vložíme informaci také bez mezer
+            //            Paragraph emptyPara = new Paragraph(new Run("No autorun applications found.")) { Margin = new Thickness(0) };
+            //            rtbAutoruns1.Document.Blocks.Add(emptyPara);
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    System.Windows.MessageBox.Show("Unexpected Error: " + ex.Message);
+            //}
+        
 
         private void Button_Click(object sender, RoutedEventArgs e) // GOD MODE button
         {
-            string godModeFolderName = "GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}";
-            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string godModeFolderPath = Path.Combine(desktopPath, godModeFolderName);
-
-            if (!Directory.Exists(godModeFolderPath))
-            {
-                try
-                {
-                    Directory.CreateDirectory(godModeFolderPath);
-                    //System.Windows.MessageBox.Show("OK God Mode created!");
-                }
-                catch (Exception ex)
-                {
-                    System.Windows.MessageBox.Show("X Error creating God Mode shortcut: " + ex.Message);
-                    return;
-                }
-            }
-
-            try
-            {
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = "explorer.exe",
-                    Arguments = godModeFolderName,
-                    UseShellExecute = true
-                });
-            }
-            catch (Exception ex)
-            {
-                System.Windows.MessageBox.Show("X Error opening folder: " + ex.Message);
-            }
+            string BozstvoMode = "GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}";
+            if (!Directory.Exists(BozstvoMode))
+                Directory.CreateDirectory(BozstvoMode);
+            Process.Start("explorer.exe", BozstvoMode);
         }
 
         private void konec_Click(object sender, RoutedEventArgs e)
@@ -420,6 +480,9 @@ namespace Woknow
 
             
         }
+
+
+
 
         //
 
