@@ -15,7 +15,7 @@ namespace Woknow
 {
     public partial class MainWindow : System.Windows.Window
     {
-   
+
 
         public MainWindow()
         {
@@ -24,16 +24,24 @@ namespace Woknow
             TasksOverview();
             AutorunStartups();
             LoadRegistryStartupOS();
+            GetCompName();
 
+        }
+
+
+        private void GetCompName()
+        {
+            string computerName = Environment.MachineName;
+            compName.Text = computerName;
         }
 
         private void LoadRegistryStartupOS()
         {
-            
+
             rtbAutoruns1.Document.Blocks.Clear();
             rtbAutoruns1.Document.PagePadding = new Thickness(0);
 
-            // žádné mezery mezi řádky
+            // no spaces between
             Paragraph paragraph = new Paragraph
             {
                 Margin = new Thickness(0),
@@ -58,8 +66,8 @@ namespace Woknow
 
                     foreach (string valueName in rky.GetValueNames())
                     {
-                        
-                        paragraph.Inlines.Add(new Run(valueName));                      
+
+                        paragraph.Inlines.Add(new Run(valueName));
                         paragraph.Inlines.Add(new LineBreak());
                     }
                 }
@@ -68,48 +76,6 @@ namespace Woknow
             rtbAutoruns1.Document.Blocks.Add(paragraph);
         }
 
-
-
-
-
-
-            //try
-            //{
-            //    // 1. Vymazat stávající dokument a nastavit PagePadding na 0
-            //    rtbAutoruns1.Document.Blocks.Clear();
-            //    rtbAutoruns1.Document.PagePadding = new Thickness(0);
-
-            //    using (RegistryKey rky = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", false))
-            //    {
-            //        if (rky != null)
-            //        {
-            //            foreach (string valueName in rky.GetValueNames())
-            //            {
-
-            //                // 2. Vytvoření odstavce bez vnějších okrajů (Margin)
-            //                Paragraph para = new Paragraph(new Run(valueName));
-            //                para.Margin = new Thickness(0); // Odstraní mezery nad/pod řádkem
-            //                para.Padding = new Thickness(0);
-            //                para.FontSize = 12;
-            //                para.LineHeight = 14;
-            //                para.TextAlignment = TextAlignment.Left;
-
-            //                rtbAutoruns1.Document.Blocks.Add(para);
-            //            }
-            //        }
-            //        else
-            //        {
-            //            // Pokud nic nenajdeme, vložíme informaci také bez mezer
-            //            Paragraph emptyPara = new Paragraph(new Run("No autorun applications found.")) { Margin = new Thickness(0) };
-            //            rtbAutoruns1.Document.Blocks.Add(emptyPara);
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    System.Windows.MessageBox.Show("Unexpected Error: " + ex.Message);
-            //}
-        
 
         private void Button_Click(object sender, RoutedEventArgs e) // GOD MODE button
         {
@@ -203,16 +169,16 @@ namespace Woknow
                     }
                 }
 
-                
-                rtbTaskOverview.Document.Blocks.Clear(); 
+
+                rtbTaskOverview.Document.Blocks.Clear();
 
                 Paragraph p = new Paragraph();
-                p.Margin = new Thickness(0); 
-                p.Padding = new Thickness(0); 
+                p.Margin = new Thickness(0);
+                p.Padding = new Thickness(0);
 
                 if (taskList.Length > 0)
                 {
-                    
+
                     p.Inlines.Add(new Run(taskList.ToString().Trim()));
                 }
                 else
@@ -224,7 +190,7 @@ namespace Woknow
             }
             catch (Exception ex)
             {
-                
+
                 rtbTaskOverview.Document.Blocks.Clear();
                 Paragraph errorPara = new Paragraph(new Run($"Error: {ex.Message}")) { Margin = new Thickness(0) };
                 rtbTaskOverview.Document.Blocks.Add(errorPara);
@@ -268,7 +234,7 @@ namespace Woknow
                     {
                         foreach (string valueName in rk.GetValueNames())
                         {
-                            // 2. Vytvoření odstavce bez vnějších okrajů (Margin)
+                            // 2. Vytvoření odstavce bez internal okrajů (Margin)
                             Paragraph para = new Paragraph(new Run(valueName));
                             para.Margin = new Thickness(0); // Odstraní mezery nad/pod řádkem
                             para.Padding = new Thickness(0);
@@ -281,7 +247,7 @@ namespace Woknow
                     }
                     else
                     {
-                        // Pokud nic nenajdeme, vložíme informaci také bez mezer
+                        // Pokud nic nenajdem, input informace bez mezer
                         Paragraph emptyPara = new Paragraph(new Run("No autorun applications found.")) { Margin = new Thickness(0) };
                         rtbAutoruns2.Document.Blocks.Add(emptyPara);
                     }
@@ -296,7 +262,9 @@ namespace Woknow
 
         private void AutorunStartups(object sender, RoutedEventArgs e)
         {
-            OpenRegistryKey(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
+            // OS startup registry
+            //OpenRegistryKey(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
+            OpenRegistryKey(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunNotification");
         }
 
         private void UserStartReg(object sender, RoutedEventArgs e)
@@ -412,20 +380,20 @@ namespace Woknow
                 string messageText = "Win product key saving...";
                 string title = "State message";
 
-                Console.WriteLine(txbWinCode.GetType().ToString()); 
+                Console.WriteLine(txbWinCode.GetType().ToString());
 
-                
+
                 using (StreamWriter sw = System.IO.File.CreateText(path))
                 {
                     sw.WriteLine(txtBoxDavajCasy);
                     sw.WriteLine(machineName);
-                    sw.WriteLine(txbWinCode.Text); 
-                                                   
+                    sw.WriteLine(txbWinCode.Text);
+
 
                     var result = System.Windows.MessageBox.Show(messageText, title, MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
-        
+
 
             else
             {
@@ -467,18 +435,23 @@ namespace Woknow
 
 
 
-        private void btnWifiManage_click(object sender, RoutedEventArgs e) 
-        { 
-            try 
-            { 
-                Process.Start(new ProcessStartInfo { FileName = "ms-settings:network-wifisettings", UseShellExecute = true }); 
+        private void btnWifiManage_click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo { FileName = "ms-settings:network-wifisettings", UseShellExecute = true });
             }
             catch (Exception ex)
             {
                 System.Windows.MessageBox.Show("Failed to open settings: " + ex.Message);
             }
 
-            
+
+        }
+
+        private void btnWinRegStart_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
 
@@ -491,4 +464,3 @@ namespace Woknow
 
 
 }
-

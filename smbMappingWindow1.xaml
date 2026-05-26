@@ -31,6 +31,10 @@
                       FontSize="16"
                       FontWeight="SemiBold"
                       Grid.ColumnSpan="3">
+                <ComboBoxItem>K:</ComboBoxItem>
+                <ComboBoxItem>L:</ComboBoxItem>
+                <ComboBoxItem>M:</ComboBoxItem>
+                <ComboBoxItem>N:</ComboBoxItem>
                 <ComboBoxItem>O:</ComboBoxItem>
                 <ComboBoxItem>P:</ComboBoxItem>
                 <ComboBoxItem>Q:</ComboBoxItem>
@@ -42,6 +46,7 @@
                 <ComboBoxItem>W:</ComboBoxItem>
                 <ComboBoxItem>X:</ComboBoxItem>
                 <ComboBoxItem>Y:</ComboBoxItem>
+                <ComboBoxItem>Z:</ComboBoxItem>
 
             </ComboBox>
 
@@ -74,7 +79,7 @@
                      Grid.Column="2"/>
 
             <!-- Button -->
-            <Button Content="mapp drive"
+            <Button Content="map drive"
                     HorizontalAlignment="Left"
                     Margin="240,43,0,0"
                     VerticalAlignment="Top"
