@@ -81,9 +81,9 @@
             <!-- Button -->
             <Button Content="map drive"
                     HorizontalAlignment="Left"
-                    Margin="240,43,0,0"
+                    Margin="189,43,0,0"
                     VerticalAlignment="Top"
-                    Width="120"
+                    Width="222"
                     Height="40"
                     Click="Button_Click"
                     FontSize="16"
@@ -125,7 +125,7 @@
             <!-- Password and Checkbox -->
             <PasswordBox x:Name="txbPasswordik"
                          HorizontalAlignment="Left"
-                         Margin="240,198,0,0"
+                         Margin="240,204,0,0"
                          VerticalAlignment="Top"
                          Width="120"
                          FontSize="16"

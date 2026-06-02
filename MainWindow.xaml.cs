@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks; // Přidáno pro podporu async/await
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Forms;
@@ -15,19 +16,52 @@ namespace Woknow
 {
     public partial class MainWindow : System.Windows.Window
     {
-
+      
+        private formLoader loaderForm;
 
         public MainWindow()
         {
+          
             InitializeComponent();
-            ReadWinKeyCode();
-            TasksOverview();
-            AutorunStartups();
-            LoadRegistryStartupOS();
-            GetCompName();
 
+        
+            this.ContentRendered += MainWindow_ContentRendered;
         }
 
+        private async void MainWindow_ContentRendered(object sender, EventArgs e)
+        {
+            try
+            {
+                
+                loaderForm = new formLoader();
+                //loaderForm.Owner = this; // Zajistí, že loader bude vycentrován vůči MainWindow (pokid má nastaveno WindowStartupLocation.CenterOwner)
+                loaderForm.Show();
+
+          
+                await Task.Run(() =>
+                {
+              
+                });
+
+                ReadWinKeyCode();
+                TasksOverview();
+                AutorunStartups();
+                LoadRegistryStartupOS();
+                GetCompName();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show($"Chyba při načítání: {ex.Message}");
+            }
+            finally
+            {
+                //Jakmile vše doběhne, loader zavřeme
+                if (loaderForm != null)
+                {
+                    loaderForm.Close();
+                }
+            }
+        }
 
         private void GetCompName()
         {
@@ -37,11 +71,9 @@ namespace Woknow
 
         private void LoadRegistryStartupOS()
         {
-
             rtbAutoruns1.Document.Blocks.Clear();
             rtbAutoruns1.Document.PagePadding = new Thickness(0);
 
-            // no spaces between
             Paragraph paragraph = new Paragraph
             {
                 Margin = new Thickness(0),
@@ -49,24 +81,16 @@ namespace Woknow
                 LineHeight = 1
             };
 
-            foreach (RegistryView view in new[]
+            foreach (RegistryView view in new[] { RegistryView.Registry64, RegistryView.Registry32 })
             {
-        RegistryView.Registry64,
-        RegistryView.Registry32
-    })
-            {
-                using (RegistryKey baseKey =
-                    RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, view))
-                using (RegistryKey rky =
-                    baseKey.OpenSubKey(
-                        @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", false))
+                using (RegistryKey baseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, view))
+                using (RegistryKey rky = baseKey.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", false))
                 {
                     if (rky == null)
                         continue;
 
                     foreach (string valueName in rky.GetValueNames())
                     {
-
                         paragraph.Inlines.Add(new Run(valueName));
                         paragraph.Inlines.Add(new LineBreak());
                     }
@@ -75,7 +99,6 @@ namespace Woknow
 
             rtbAutoruns1.Document.Blocks.Add(paragraph);
         }
-
 
         private void Button_Click(object sender, RoutedEventArgs e) // GOD MODE button
         {
@@ -90,7 +113,6 @@ namespace Woknow
             this.Close();
         }
 
-        // moznost zmeny pozice okna na screenu
         private void Header_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ButtonState == MouseButtonState.Pressed)
@@ -137,7 +159,6 @@ namespace Woknow
                 string output = process.StandardOutput.ReadToEnd();
                 process.WaitForExit();
 
-                // Rozdělení textu a odstranění
                 string[] lines = output.Split(new[] { Environment.NewLine, "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
                 StringBuilder taskList = new StringBuilder();
 
@@ -169,16 +190,13 @@ namespace Woknow
                     }
                 }
 
-
                 rtbTaskOverview.Document.Blocks.Clear();
-
                 Paragraph p = new Paragraph();
                 p.Margin = new Thickness(0);
                 p.Padding = new Thickness(0);
 
                 if (taskList.Length > 0)
                 {
-
                     p.Inlines.Add(new Run(taskList.ToString().Trim()));
                 }
                 else
@@ -190,28 +208,16 @@ namespace Woknow
             }
             catch (Exception ex)
             {
-
                 rtbTaskOverview.Document.Blocks.Clear();
                 Paragraph errorPara = new Paragraph(new Run($"Error: {ex.Message}")) { Margin = new Thickness(0) };
                 rtbTaskOverview.Document.Blocks.Add(errorPara);
             }
         }
 
-
         private void TasksOpenWindow(object sender, RoutedEventArgs e)
         {
             try
             {
-                //string regPath = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tasks";
-
-                //Process.Start(new ProcessStartInfo
-                //{
-                //    FileName = "reg",
-                //    Arguments = $@"add ""HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Applets\Regedit"" /v LastKey /t REG_SZ /d ""{regPath}"" /f",
-                //    UseShellExecute = false,
-                //    CreateNoWindow = true
-                //}).WaitForExit();
-
                 Process.Start("taskschd.msc");
             }
             catch (Exception ex)
@@ -224,7 +230,6 @@ namespace Woknow
         {
             try
             {
-                // 1. Vymazat stávající dokument a nastavit PagePadding na 0
                 rtbAutoruns2.Document.Blocks.Clear();
                 rtbAutoruns2.Document.PagePadding = new Thickness(0);
 
@@ -234,9 +239,8 @@ namespace Woknow
                     {
                         foreach (string valueName in rk.GetValueNames())
                         {
-                            // 2. Vytvoření odstavce bez internal okrajů (Margin)
                             Paragraph para = new Paragraph(new Run(valueName));
-                            para.Margin = new Thickness(0); // Odstraní mezery nad/pod řádkem
+                            para.Margin = new Thickness(0);
                             para.Padding = new Thickness(0);
                             para.FontSize = 12;
                             para.LineHeight = 14;
@@ -247,7 +251,6 @@ namespace Woknow
                     }
                     else
                     {
-                        // Pokud nic nenajdem, input informace bez mezer
                         Paragraph emptyPara = new Paragraph(new Run("No autorun applications found.")) { Margin = new Thickness(0) };
                         rtbAutoruns2.Document.Blocks.Add(emptyPara);
                     }
@@ -259,11 +262,8 @@ namespace Woknow
             }
         }
 
-
         private void AutorunStartups(object sender, RoutedEventArgs e)
         {
-            // OS startup registry
-            //OpenRegistryKey(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
             OpenRegistryKey(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunNotification");
         }
 
@@ -372,7 +372,7 @@ namespace Woknow
         private void btnExportKexLic(object sender, RoutedEventArgs e)
         {
             string machineName = Environment.MachineName;
-            string txtBoxDavajCasy = DateTime.Now.ToString("d"); //cas pouze v CZ jazyce s teckami, pro eng dela lomitka = chyba, nedavat do nazvu...
+            string txtBoxDavajCasy = DateTime.Now.ToString("d");
 
             string path = @"ProductKey_" + machineName + ".txt";
             if (!System.IO.File.Exists(path))
@@ -380,39 +380,28 @@ namespace Woknow
                 string messageText = "Win product key saving...";
                 string title = "State message";
 
-                Console.WriteLine(txbWinCode.GetType().ToString());
-
-
                 using (StreamWriter sw = System.IO.File.CreateText(path))
                 {
                     sw.WriteLine(txtBoxDavajCasy);
                     sw.WriteLine(machineName);
                     sw.WriteLine(txbWinCode.Text);
 
-
                     var result = System.Windows.MessageBox.Show(messageText, title, MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
-
-
             else
             {
                 string Titulek = "something wrong...";
                 string Text = "file exist or not writed... !";
-
-                var resultError = System.Windows.MessageBox.Show(Text, Titulek, (MessageBoxButton)MessageBoxButtons.OK, (MessageBoxImage)MessageBoxIcon.Warning);
-
+                System.Windows.MessageBox.Show(Text, Titulek, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
-
 
         private void btnSMBpath_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Window window2 = new smbMappingWindow1();
             window2.Show();
         }
-
-
 
         private void LicKeyVisibleUncheck(object sender, RoutedEventArgs e)
         {
@@ -433,8 +422,6 @@ namespace Woknow
             });
         }
 
-
-
         private void btnWifiManage_click(object sender, RoutedEventArgs e)
         {
             try
@@ -445,22 +432,10 @@ namespace Woknow
             {
                 System.Windows.MessageBox.Show("Failed to open settings: " + ex.Message);
             }
-
-
         }
 
         private void btnWinRegStart_Click(object sender, RoutedEventArgs e)
         {
-
         }
-
-
-
-
-        //
-
-
     }
-
-
 }
