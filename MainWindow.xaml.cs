@@ -34,7 +34,7 @@ namespace Woknow
             {
                 
                 loaderForm = new formLoader();
-                //loaderForm.Owner = this; // Zajistí, že loader bude vycentrován vůči MainWindow (pokid má nastaveno WindowStartupLocation.CenterOwner)
+                //loaderForm.Owner = this; //loader bude vycentrován vůči MainWindow (pokud nastaveno WindowStartupLocation.CenterOwner)
                 loaderForm.Show();
 
           
@@ -55,7 +55,7 @@ namespace Woknow
             }
             finally
             {
-                //Jakmile vše doběhne, loader zavřeme
+                //vse se nacte, tak loader se zavre
                 if (loaderForm != null)
                 {
                     loaderForm.Close();
@@ -436,6 +436,22 @@ namespace Woknow
 
         private void btnWinRegStart_Click(object sender, RoutedEventArgs e)
         {
+        }
+
+        private void AppStartup(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "ms-settings:startupapps",
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                   System.Windows.MessageBox.Show($"Nepodařilo se otevřít nastavení: {ex.Message}");
+            }
         }
     }
 }

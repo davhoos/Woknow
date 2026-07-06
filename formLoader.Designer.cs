@@ -37,16 +37,16 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label1.Location = new System.Drawing.Point(259, 9);
+            this.label1.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label1.Location = new System.Drawing.Point(259, 22);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(431, 38);
+            this.label1.Size = new System.Drawing.Size(277, 27);
             this.label1.TabIndex = 0;
             this.label1.Text = "Loading Woknow program ...";
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(5, 38);
+            this.progressBar1.Location = new System.Drawing.Point(5, 55);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(783, 17);
             this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
@@ -57,7 +57,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(791, 57);
+            this.ClientSize = new System.Drawing.Size(791, 79);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
