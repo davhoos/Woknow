@@ -453,5 +453,41 @@ namespace Woknow
                    System.Windows.MessageBox.Show($"Nepodařilo se otevřít nastavení: {ex.Message}");
             }
         }
+
+        private void btn_MultiWlan_Import(object sender, RoutedEventArgs e)
+        {
+            string currentPath = Directory.GetCurrentDirectory();
+            string saveFolder = Path.Combine(currentPath, "WifiProfilesEXP");
+
+            Directory.CreateDirectory(saveFolder);
+
+            // Načteme všechny XML soubory ze složky WifiProfilesEXP
+            string[] xmlFiles = Directory.GetFiles(saveFolder, "*.xml");
+
+            if (xmlFiles.Length == 0)
+            {
+                System.Windows.MessageBox.Show("Inside folder nothing found!");
+                return;
+            }
+
+
+            foreach (string file in xmlFiles)
+            {
+                Process process = new Process();
+                process.StartInfo.FileName = "netsh.exe";
+
+                process.StartInfo.Arguments = $"wlan add profile filename=\"{file}\"";
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.RedirectStandardOutput = true;
+
+                process.Start();
+                process.WaitForExit();
+            }
+
+            System.Windows.MessageBox.Show($"Multi-Import Done! Range of {xmlFiles.Length} profiles...");
+
+
+        }
     }
 }

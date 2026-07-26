@@ -80,7 +80,7 @@
         <Border 
             Background="CornflowerBlue"
             CornerRadius="25" Grid.ColumnSpan="2" >
-            <Button x:Name="btnTaskOpen_Kopírovat" Style="{DynamicResource RoundedButtonStyle1}" Content="App Startup" HorizontalAlignment="Left" VerticalAlignment="Top" Width="96" Click="AppStartup" Height="28" Margin="682,191,0,0" />
+            <Button x:Name="btnWlanImportsMulti" Style="{DynamicResource RoundedButtonStyle1}" Content="Multi Wlan Import" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Height="22" Click="btn_MultiWlan_Import" Margin="30,261,0,0"/>
         </Border>
 
         <!-- main Grid -->
@@ -145,8 +145,8 @@
 
 
             <Button x:Name="Tlacitko1" Style="{DynamicResource RoundedButtonStyle1}" Grid.Column="3" Content="God mode" HorizontalAlignment="Left" Margin="173,93,0,0" Grid.Row="2" VerticalAlignment="Top" Width="95" Click="Button_Click" Height="29" Grid.ColumnSpan="2" Grid.RowSpan="2" />
-            <Button x:Name="Tlacitko2" Style="{DynamicResource RoundedButtonStyle1}" Grid.Column="1" Content="Network adapters" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="120" Click="btnNetAdapters" Height="22" Margin="0,16,0,0" />
-            <Button x:Name="Tlacitko3" Style="{DynamicResource RoundedButtonStyle1}" Grid.Column="1" Content="Clean manager" HorizontalAlignment="Left" Margin="0,84,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120" Click="btnCleanManager" Height="22"/>
+            <Button x:Name="Tlacitko2" Style="{DynamicResource RoundedButtonStyle1}" Grid.Column="1" Content="Network adapters" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="120" Click="btnNetAdapters" Height="22" Margin="0,21,0,0" />
+            <Button x:Name="Tlacitko3" Style="{DynamicResource RoundedButtonStyle1}" Grid.Column="1" Content="Clean manager" HorizontalAlignment="Left" Margin="0,94,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120" Click="btnCleanManager" Height="22"/>
             <RichTextBox x:Name="rtbTaskOverview" Grid.Column="1" Grid.ColumnSpan="3" Margin="130,13,80,20" Grid.RowSpan="2" Grid.Row="2" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                 <FlowDocument>
                     <Paragraph>
@@ -172,23 +172,23 @@
                 </FlowDocument>
             </RichTextBox>
             <TextBox x:Name="txbWinCode" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Left" Height="24" Margin="130,109,0,0" Grid.Row="3" TextWrapping="Wrap" Text="---" VerticalAlignment="Top" Width="515" IsReadOnly="True" TextAlignment="Center" Grid.RowSpan="2"/>
-            <Button x:Name="btnTaskOpen" Style="{DynamicResource RoundedButtonStyle1}" Grid.Column="3" Content="TaskScheduler" HorizontalAlignment="Left" Margin="173,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="96" Click="TasksOpenWindow" Grid.ColumnSpan="2" Height="28" />
+            <Button x:Name="btnTaskOpen" Style="{DynamicResource RoundedButtonStyle1}" Grid.Column="3" Content="Task Scheduler" HorizontalAlignment="Left" Margin="173,25,0,0" Grid.Row="2" VerticalAlignment="Top" Width="96" Click="TasksOpenWindow" Grid.ColumnSpan="2" Height="38" />
             <Button x:Name="btnTaskOpen2" Style="{DynamicResource RoundedButtonStyle1}" Grid.Column="3" Content="User reg start" HorizontalAlignment="Left" Margin="173,16,0,74" Width="96" Click="UserStartReg" Grid.ColumnSpan="2" Grid.Row="1" />
             <Button x:Name="btnWinStart" Style="{DynamicResource RoundedButtonStyle1}" Grid.Column="3" Content="Startup folder" HorizontalAlignment="Left" Margin="172,54,0,38" Width="96" Grid.ColumnSpan="2" Grid.Row="1" Click="btnWinStart_Click" />
-            <Button x:Name="btnBackuppWif" Style="{DynamicResource RoundedButtonStyle1}" Grid.Column="1" Content="Backup All Wlans" HorizontalAlignment="Left" Margin="0,9,0,0" Grid.Row="2" VerticalAlignment="Top" Width="120" Click="btnBackuppWifi" Height="22"/>
+            <Button x:Name="btnBackuppWif" Style="{DynamicResource RoundedButtonStyle1}" Grid.Column="1" Content="Backup All Wlans" HorizontalAlignment="Left" Margin="0,17,0,0" Grid.Row="2" VerticalAlignment="Top" Width="120" Click="btnBackuppWifi" Height="22"/>
             <Label Grid.Column="1" Content="Startup applications &amp; tasks" HorizontalAlignment="Left" Margin="176,30,0,0" VerticalAlignment="Top" FontSize="16" Grid.ColumnSpan="2" Width="240" Height="0" Grid.Row="1"/>
-            <Button x:Name="btnImportWlanProfileOnce" Style="{DynamicResource RoundedButtonStyle1}" Grid.Column="1" Content="Import Wlan profile" HorizontalAlignment="Left" Margin="0,41,0,0" Grid.Row="2" VerticalAlignment="Top" Width="120" Click="btnImportWlanOnce" Height="22"/>
+            <Button x:Name="btnImportWlanProfileOnce" Style="{DynamicResource RoundedButtonStyle1}" Grid.Column="1" Content="Import Wlan Once" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Center" Width="120" Click="btnImportWlanOnce" Height="22"/>
 
-            <Button x:Name="btnWifiManage" Style="{DynamicResource RoundedButtonStyle1}" Grid.Column="1" Content="Manage wifi" HorizontalAlignment="Left" Margin="0,51,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120" Click="btnWifiManage_click" Height="22"/>
+            <Button x:Name="btnWifiManage" Style="{DynamicResource RoundedButtonStyle1}" Grid.Column="1" Content="Manage saved wifi" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center" Width="120" Click="btnWifiManage_click" Height="22"/>
 
             <Button x:Name="btnExportKexLics" Style="{DynamicResource RoundedButtonStyle1}" Grid.Column="3" Content="Export Lic. Key" HorizontalAlignment="Left" Margin="173,108,0,0" Grid.Row="3" VerticalAlignment="Top" Width="96" Click="btnExportKexLic" Grid.ColumnSpan="2" Height="28" Grid.RowSpan="2" />
             <Button x:Name="btnControlP" Style="{DynamicResource RoundedButtonStyle1}" Grid.Column="3" Content="Control Panel" HorizontalAlignment="Left" Margin="173,10,0,0" Grid.Row="3" VerticalAlignment="Top" Width="96" Click="btnControlPanel" Grid.ColumnSpan="2" Height="28" Grid.RowSpan="2" />
             <Button x:Name="btnSMBpath" Style="{DynamicResource RoundedButtonStyle1}" Grid.Column="1" Content="smb mapp folder" HorizontalAlignment="Left" Margin="0,9,0,0" Grid.Row="3" VerticalAlignment="Top" Width="120" Height="22" Click="btnSMBpath_Click"/>
             <CheckBox x:Name="CheckBoxShowLicKey" Grid.Column="1" Content="Show license code" HorizontalAlignment="Left" Margin="0,113,0,105" Width="120" Grid.Row="3" Checked="CheckBoxShowLicKeyH" Unchecked="LicKeyVisibleUncheck" IsChecked="True" Grid.RowSpan="2"/>
             <Label Grid.Column="1" Content="Startup User app" HorizontalAlignment="Left" Margin="131,40,0,0" VerticalAlignment="Top" Grid.RowSpan="2" Grid.ColumnSpan="2" Width="112"/>
-            <Label Grid.Column="1" Content="Startup Tasks" HorizontalAlignment="Left" Margin="130,109,0,0" VerticalAlignment="Top" Grid.Row="1" Grid.RowSpan="2"/>
+            <Label Grid.Column="1" Content="Startup Tasks" HorizontalAlignment="Left" Margin="130,111,0,0" VerticalAlignment="Top" Grid.Row="1" Grid.RowSpan="2" Height="30"/>
             <Label Grid.Column="2" Content="Startup Machine app" HorizontalAlignment="Left" Margin="148,39,0,0" VerticalAlignment="Top" Grid.RowSpan="2" Grid.ColumnSpan="2" Width="128"/>
-            <Button x:Name="btnAutorunStartups" Style="{DynamicResource RoundedButtonStyle1}" Grid.Column="3" Content="Machine reg start" HorizontalAlignment="Left" Margin="172,89,0,3" Width="96" Grid.ColumnSpan="2" Grid.Row="1" Click="AutorunStartups" />
+            <Button x:Name="btnAutorunStartups" Style="{DynamicResource RoundedButtonStyle1}" Grid.Column="3" Content="Machine reg" HorizontalAlignment="Left" Margin="172,89,0,3" Width="96" Grid.ColumnSpan="2" Grid.Row="1" Click="AutorunStartups" />
         </Grid>
     </Grid>
 
